@@ -1,0 +1,29 @@
+:host { display: block; color: #193438; font-family: Arial, sans-serif; }
+main { max-width: 920px; margin: 0 auto; }
+header { padding: 12px 0 22px; border-bottom: 1px solid #c9dedd; }
+.eyebrow { color: #00665e; font-size: 12px; font-weight: bold; letter-spacing: 2px; }
+h1 { font-size: clamp(25px, 5vw, 42px); margin: 12px 0; overflow-wrap: anywhere; }
+h2 { font-size: 23px; line-height: 1.35; margin: 12px 0 18px; }
+.intro { font-size: 19px; line-height: 1.6; }
+.note, footer { color: #52666a; font-size: 14px; line-height: 1.6; }
+.shortcuts { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+a { color: #005c55; text-decoration: underline; text-underline-offset: 3px; }
+.shortcuts a { background: #e6f5f0; border: 1px solid #b3d7cc; border-radius: 8px; padding: 12px 16px; font-weight: bold; }
+a:focus-visible { outline: 3px solid #b05a00; outline-offset: 3px; }
+.status, .pending { padding: 22px; background: #f0f6f5; border-radius: 12px; line-height: 1.7; }
+.timeline { margin: 32px 0; }
+article { padding: 12px 0 26px 24px; border-left: 3px solid #008577; margin-bottom: 32px; }
+time { display: inline-block; color: #00685e; font-size: 14px; font-weight: bold; }
+ol, ul { padding-left: 22px; }
+li { margin-bottom: 14px; line-height: 1.8; }
+code { background: #edf1f3; color: #254454; border-radius: 4px; padding: 2px 5px; font-size: 0.9em; overflow-wrap: anywhere; }
+.result { border-top: 1px solid #d6e5e1; padding-top: 16px; color: #00685e; line-height: 1.6; font-weight: bold; }
+footer { margin: 28px 0 8px; }
+@media (max-width: 600px) { article { padding-left: 12px; } .status, .pending { padding: 15px; } h2 { font-size: 21px; } }
+.structure { margin: 24px 0; border: 1px solid #c9dedd; border-radius: 12px; padding: 20px; }
+.folder { margin: 20px 0; }
+.folder h3 { background: #edf4f2; padding: 10px; font-size: 15px; overflow-wrap: anywhere; }
+.folder ul { list-style: none; padding: 0 0 0 12px; }
+.folder li { margin: 0; }
+.folder a { display: inline-block; padding: 8px 0; overflow-wrap: anywhere; font-family: monospace; }
+@media (max-width: 600px) { .structure { padding: 12px; } }

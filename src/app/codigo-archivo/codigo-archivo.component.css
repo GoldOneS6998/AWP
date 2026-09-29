@@ -1,0 +1,9 @@
+:host { display: block; font-family: Arial, sans-serif; color: #193438; }
+main { max-width: 1100px; margin: auto; min-width: 0; }
+h1 { font-size: 26px; overflow-wrap: anywhere; }
+p { line-height: 1.7; overflow-wrap: anywhere; }
+.note { color: #52666a; font-size: 14px; }
+.back { display: inline-block; color: #005c55; background: #e6f5f0; border: 1px solid #b3d7cc; border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+pre { max-height: 70vh; overflow: auto; max-width: 100%; box-sizing: border-box; background: #142a32; color: #e3f4ef; border-radius: 10px; padding: 20px; line-height: 1.65; tab-size: 2; font-size: 13px; }
+a:focus-visible, pre:focus-visible { outline: 3px solid #b05a00; outline-offset: 3px; }
+@media (max-width: 600px) { h1 { font-size: 21px; } pre { padding: 12px; } }

@@ -1,0 +1,99 @@
+<main>
+  <header>
+    <p class="eyebrow">BITÁCORA DEL PROYECTO</p>
+    <h1>información_pagina</h1>
+    <p class="intro">Así ha cambiado nuestra aplicación desde que descomprimimos el proyecto.</p>
+    <p class="note">Cambios en el código y las páginas, sin instalaciones. Fechas organizadas con la hora de Ciudad de México.</p>
+  </header>
+
+  <section id="estructura" class="structure" aria-labelledby="estructura-titulo">
+    <h2 id="estructura-titulo">Estructura actual del proyecto</h2>
+    <p>Toca un archivo terminado en <strong>_view</strong> para leer su código y regresar a esta lista.</p>
+    <p class="note">Se muestran los archivos de la raíz, src y scripts. Las dependencias, los archivos compilados y las copias generadas no se repiten en la lista. Los archivos binarios aparecen sin visor de código.</p>
+    <p *ngIf="actualizado" class="note">Copias actualizadas: {{ actualizado | date:'dd/MM/yyyy HH:mm' }}. Se regeneran al iniciar o compilar con los comandos npm del proyecto.</p>
+    <p *ngIf="cargando" role="status">Cargando estructura…</p>
+    <p *ngIf="error" role="alert">{{ error }}</p>
+    <section *ngFor="let grupo of grupos" class="folder">
+      <h3>{{ grupo.carpeta === '.' ? 'Raíz del proyecto' : grupo.carpeta + '/' }}</h3>
+      <ul>
+        <li *ngFor="let archivo of grupo.archivos">
+          <a *ngIf="archivo.viewable" [routerLink]="['/informacion_pagina/archivo', archivo.id]">{{ archivo.viewName }}</a>
+          <span *ngIf="!archivo.viewable">{{ archivo.name }} · archivo binario</span>
+        </li>
+      </ul>
+    </section>
+  </section>
+  <nav class="shortcuts" aria-label="Páginas del proyecto">
+    <a routerLink="/">Ver Home</a>
+    <a routerLink="/login">Ver Login</a>
+    <a routerLink="/registro">Ver Registro</a>
+  </nav>
+
+  <section class="status" aria-labelledby="estado">
+    <h2 id="estado">¿Cómo está la página ahora?</h2>
+    <p>Home muestra Login y Registro dentro de la misma pantalla, junto al contenido original de Angular Universal. También podemos abrir cada componente por su propia ruta.</p>
+    <p>Login y Registro muestran sus títulos. Todavía no tienen formularios ni realizan autenticación o guardan datos.</p>
+  </section>
+
+  <section class="timeline" aria-label="Historial de cambios por día">
+    <article>
+      <time datetime="2026-09-22">22 de septiembre de 2026</time>
+      <h2>Configuración de Firebase y organización de las rutas</h2>
+      <ol>
+        <li><strong>Agregamos los datos de Firebase.</strong> En <code>environment.ts</code> creamos el objeto <code>firebase</code> dentro de <code>environment</code>, con apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId y measurementId. Conservamos <code>production: false</code>.</li>
+        <li><strong>Preparamos el entorno de producción.</strong> Copiamos la configuración a <code>environment.prod.ts</code>, conservando <code>production: true</code>.</li>
+        <li><strong>Inicializamos AngularFire.</strong> Importamos <code>environment</code> y <code>AngularFireModule</code> en <code>app.module.ts</code> y agregamos <code>AngularFireModule.initializeApp(environment.firebase)</code> en los imports de <code>@NgModule</code>.</li>
+        <li><strong>Registramos Auth y Firestore.</strong> Agregamos las importaciones de <code>AngularFireAuthModule</code> y <code>AngularFirestoreModule</code> y los colocamos en <code>imports</code>. Usamos el nombre correcto <code>AngularFirestoreModule</code>; estos módulos no van en declarations.</li>
+        <li><strong>Creamos un archivo para las rutas.</strong> Primero creamos <code>src/app/router.ts</code>, importamos <code>Routes</code> y <code>HomeComponent</code>, y exportamos un arreglo vacío de tipo <code>Routes</code>.</li>
+        <li><strong>Movimos las rutas existentes.</strong> Sacamos las rutas de Home, lazy y lazy/nested de <code>RouterModule.forRoot(...)</code> y las pasamos al nuevo arreglo.</li>
+        <li><strong>Renombramos el archivo y el arreglo.</strong> El archivo quedó como <code>routers.ts</code>, el arreglo como <code>routers</code>, y AppModule lo utiliza con <code>RouterModule.forRoot(routers)</code>.</li>
+      </ol>
+      <p class="result">Resultado: configuración de Firebase preparada y rutas separadas del módulo principal.</p>
+    </article>
+
+    <article>
+      <time datetime="2026-09-23">23 de septiembre de 2026</time>
+      <h2>Creación del componente Login</h2>
+      <ol>
+        <li>Creamos la carpeta <code>src/app/login</code> con <code>login.component.ts</code> y <code>login.component.html</code>.</li>
+        <li>Importamos <code>Component</code> y <code>OnInit</code> desde <code>@angular/core</code>.</li>
+        <li>Definimos el decorador <code>@Component</code> con selector <code>login</code> y <code>templateUrl: './login.component.html'</code>.</li>
+        <li>Exportamos <code>LoginComponent implements OnInit</code>, con el método vacío <code>ngOnInit(): void</code>.</li>
+        <li>En el HTML escribimos <code>&lt;h1&gt;Login&lt;/h1&gt;</code>.</li>
+        <li>Importamos LoginComponent en <code>app.module.ts</code> y lo agregamos a <code>declarations</code>.</li>
+        <li>Importamos el componente en <code>routers.ts</code> y agregamos la ruta <code>/login</code>.</li>
+        <li>Incluimos <code>&lt;login&gt;&lt;/login&gt;</code> dentro de la plantilla de Home, conservando el título y la imagen originales.</li>
+      </ol>
+      <p class="result">Resultado: Login se muestra dentro de Home y también en su propia dirección.</p>
+    </article>
+
+    <article>
+      <time datetime="2026-09-24">24 de septiembre de 2026</time>
+      <h2>Registro dentro de Home y nueva bitácora</h2>
+      <ol>
+        <li><strong>Creamos Registro.</strong> Agregamos la carpeta <code>src/app/registro</code> con <code>registro.component.ts</code> y <code>registro.component.html</code>.</li>
+        <li>Definimos <code>RegistroComponent implements OnInit</code>, el selector <code>app-registro</code>, su templateUrl y el método <code>ngOnInit(): void</code>.</li>
+        <li>Agregamos <code>&lt;h1&gt;Registro&lt;/h1&gt;</code> a su HTML.</li>
+        <li>Importamos y declaramos RegistroComponent en <code>AppModule</code>, y agregamos su ruta <code>/registro</code> en <code>routers.ts</code>.</li>
+        <li><strong>Primera versión en Home:</strong> agregamos un enlace con <code>routerLink="/registro"</code> y el texto «Ir a Registro».</li>
+        <li><strong>Ajuste solicitado:</strong> reemplazamos el enlace por <code>&lt;app-registro&gt;&lt;/app-registro&gt;</code>. Así Home muestra el mismo contenido del componente que la ruta /registro. Los cambios en su HTML se reflejan en ambos lugares.</li>
+        <li><strong>Creamos esta página.</strong> Agregamos el componente Información de la página, su HTML y sus estilos, lo registramos en AppModule y creamos la ruta <code>/informacion_pagina</code>.</li>
+        <li>Agregamos el acceso <strong>información_pagina</strong> al menú principal para consultar este historial.</li>
+        <li>Agregamos al inicio la estructura actual, las vistas de código con sufijo <code>_view</code> y un enlace para volver. Las copias se regeneran al iniciar o compilar el proyecto.</li>
+      </ol>
+      <p class="result">Resultado: Home contiene Login y Registro, y el menú permite consultar los cambios por día.</p>
+    </article>
+  </section>
+
+  <section class="pending" aria-labelledby="pendientes">
+    <h2 id="pendientes">Pendientes que todavía no hemos implementado</h2>
+    <ul>
+      <li>Formularios y funcionamiento de inicio de sesión y registro de usuarios.</li>
+      <li>Operaciones para guardar, consultar, editar o eliminar datos y comprobación de la conexión a Firebase.</li>
+      <li>La URL databaseURL, si la clase utiliza Realtime Database.</li>
+      <li>Manifiesto, iconos y configuración del service worker para hacer la aplicación instalable como PWA.</li>
+    </ul>
+  </section>
+  <footer>Historial actualizado al 24 de septiembre de 2026. Esta bitácora se actualiza manualmente al realizar nuevos cambios.</footer>
+</main>
+

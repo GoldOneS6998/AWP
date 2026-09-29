@@ -1,0 +1,13 @@
+<main>
+  <a class="back" routerLink="/informacion_pagina" fragment="estructura">← Volver a la estructura</a>
+  <p *ngIf="cargando" role="status">Cargando código…</p>
+  <p *ngIf="error" role="alert">{{ error }}</p>
+  <section *ngIf="archivo && !cargando && !error">
+    <h1>{{ archivo.viewName }}</h1>
+    <p>Archivo original: <strong>{{ archivo.path }}</strong></p>
+    <p class="note">Copia de lectura generada el {{ actualizado | date:'dd/MM/yyyy HH:mm' }}. El archivo original conserva su nombre.</p>
+    <pre tabindex="0" aria-label="Código del archivo"><code>{{ codigo }}</code></pre>
+    <p *ngIf="!codigo">Este archivo está vacío.</p>
+  </section>
+  <a class="back" routerLink="/informacion_pagina" fragment="estructura">← Volver a la estructura</a>
+</main>
