@@ -47,3 +47,9 @@ El paquete de service worker esta instalado. Para convertir la aplicacion en una
 
 La auditoria de npm reporto 140 vulnerabilidades (26 criticas) en las dependencias antiguas. Este entorno reproduce el starter de clase; requiere una actualizacion antes de publicarlo en produccion. No ejecutar npm audit fix --force sin revisar los cambios de versiones.
 
+
+## Login (2 de octubre de 2026)
+
+El componente Login usa AngularFireAuth y formularios reactivos. Incluye correo y contraseña, validaciones, mostrar contraseña, persistencia opcional, recuperación por correo y cierre de sesión. La ruta /login y Home reutilizan el mismo componente.
+
+Para usar cuentas reales, habilita el proveedor Correo/contraseña en Authentication de tu proyecto Firebase. Debe existir una cuenta de prueba; Registro todavía no crea usuarios. No se han enviado correos ni probado credenciales reales durante la implementación. La contraseña no se guarda manualmente: la sesión la administra Firebase.

@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {CodigoArchivoComponent} from './codigo-archivo/codigo-archivo.component';
 import {RouterModule} from '@angular/router';
@@ -29,6 +30,7 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
     BrowserModule.withServerTransition({appId: 'my-app'}),
     RouterModule.forRoot(routers),
     HttpClientModule,
+    ReactiveFormsModule,
     TransferHttpCacheModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -38,6 +40,7 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
 
 
 

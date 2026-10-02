@@ -1,1 +1,42 @@
-<h1>Login</h1>
+<section class="login-card" aria-labelledby="login-titulo" [attr.aria-busy]="procesando || revisandoSesion">
+  <header>
+    <p class="eyebrow">MI CUENTA</p>
+    <h1 id="login-titulo">{{ sesionActiva ? 'Bienvenido' : 'Iniciar sesión' }}</h1>
+    <p class="intro">{{ sesionActiva ? 'Tu sesión está activa.' : 'Ingresa con tu correo y contraseña para continuar.' }}</p>
+  </header>
+
+  <p *ngIf="revisandoSesion" role="status">Comprobando sesión…</p>
+  <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+  <p *ngIf="mensaje" class="alert success" role="status">{{ mensaje }}</p>
+
+  <div *ngIf="sesionActiva && !revisandoSesion" class="account">
+    <p>Conectado como <strong>{{ correoUsuario }}</strong></p>
+    <a routerLink="/">Ir al inicio</a>
+    <button type="button" class="primary" (click)="salir()" [disabled]="procesando">
+      {{ accion === 'salir' ? 'Cerrando sesión…' : 'Cerrar sesión' }}
+    </button>
+  </div>
+
+  <form *ngIf="!sesionActiva && !revisandoSesion" [formGroup]="formulario" (ngSubmit)="ingresar()" novalidate>
+    <fieldset [disabled]="procesando">
+      <div class="field">
+        <label for="login-correo">Correo electrónico</label>
+        <input id="login-correo" type="email" formControlName="correo" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" placeholder="tu@correo.com" required [attr.aria-invalid]="campoInvalido('correo')" [attr.aria-describedby]="campoInvalido('correo') ? 'correo-error' : null">
+        <p *ngIf="campoInvalido('correo')" id="correo-error" class="field-error">{{ formulario.get('correo').hasError('required') ? 'Escribe tu correo electrónico.' : 'Escribe un correo electrónico válido.' }}</p>
+      </div>
+      <div class="field">
+        <label for="login-password">Contraseña</label>
+        <div class="password-control">
+          <input id="login-password" [type]="mostrarPassword ? 'text' : 'password'" formControlName="password" autocomplete="current-password" required [attr.aria-invalid]="campoInvalido('password')" [attr.aria-describedby]="campoInvalido('password') ? 'password-error' : null">
+          <button type="button" (click)="mostrarPassword = !mostrarPassword" [attr.aria-label]="mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'" [attr.aria-pressed]="mostrarPassword">{{ mostrarPassword ? 'Ocultar' : 'Mostrar' }}</button>
+        </div>
+        <p *ngIf="campoInvalido('password')" id="password-error" class="field-error">Escribe tu contraseña.</p>
+      </div>
+      <label class="remember"><input type="checkbox" formControlName="recordar"> Mantener mi sesión en este dispositivo</label>
+      <p class="hint">Deja esta opción desmarcada si usas un equipo compartido.</p>
+      <button type="submit" class="primary">{{ accion === 'ingresar' ? 'Ingresando…' : 'Iniciar sesión' }}</button>
+      <button type="button" class="text-button" (click)="recuperar()">{{ accion === 'recuperar' ? 'Enviando solicitud…' : '¿Olvidaste tu contraseña?' }}</button>
+    </fieldset>
+    <p class="register">¿No tienes cuenta? <a routerLink="/registro">Ir a Registro</a></p>
+  </form>
+</section>
