@@ -32,21 +32,25 @@
   <section class="status" aria-labelledby="estado">
     <h2 id="estado">¿Cómo está la página ahora?</h2>
     <p>Home muestra Login y Registro dentro de la misma pantalla, junto al contenido original de Angular Universal. También podemos abrir cada componente por su propia ruta.</p>
-    <p>Login incluye un formulario conectado a Firebase con recuperación de contraseña y cierre de sesión. Registro todavía muestra su título y no crea cuentas.</p>
+    <p>Login permite acceder con Google o con correo y contraseña, recuperar el acceso por correo y cerrar sesión. Registro todavía muestra su título y no crea cuentas.</p>
   </section>
 
   <section class="timeline" aria-label="Historial de cambios por día">
     <article>
       <time datetime="2026-10-02">2 de octubre de 2026</time>
-      <h2>Formulario de Login conectado a Firebase</h2>
+      <h2>Login con Firebase y acceso con Google</h2>
+      <p>Agregamos también Continuar con Google: selección de cuenta, persistencia de sesión y mensajes para ventanas bloqueadas, cancelación y dominios no autorizados.</p>
       <ul>
         <li>Agregamos correo, contraseña, validaciones y mensajes accesibles.</li>
         <li>Incluimos mostrar u ocultar contraseña, mantener sesión y bloqueo de envíos duplicados.</li>
         <li>Conectamos el inicio de sesión, su recuperación por correo y el cierre de sesión con AngularFireAuth.</li>
         <li>Mostramos la cuenta autenticada y agregamos el enlace a Registro.</li>
+        <li>El botón Continuar con Google abre el selector de cuentas sin exigir llenar correo y contraseña, y respeta la opción de mantener sesión.</li>
+        <li>Agregamos pruebas simuladas para Google, ventanas emergentes bloqueadas y dominios no autorizados. La compilación del navegador y del servidor terminó correctamente.</li>
+        <li>Actualizamos las instrucciones de acceso con Google y las vistas de código para consultar la implementación actual.</li>
         <li>Agregamos ReactiveFormsModule y estilos adaptados a teléfonos. El mismo Login se muestra en Home y en /login.</li>
       </ul>
-      <p class="result">Pendiente verificar el acceso real con una cuenta y habilitar Correo/contraseña en Firebase si aún no está activado.</p>
+      <p class="result">El acceso real con Google queda pendiente de comprobar con tu cuenta. La creación del usuario de prueba por correo fue rechazada por Firebase con OPERATION_NOT_ALLOWED; no se creó esa cuenta. Para ese método hay que habilitar Correo/contraseña.</p>
     </article>
     <article>
       <time datetime="2026-09-22">22 de septiembre de 2026</time>
@@ -108,5 +112,7 @@
   </section>
   <footer>Historial actualizado al 2 de octubre de 2026. Esta bitácora se actualiza manualmente al realizar nuevos cambios.</footer>
 </main>
+
+
 
 

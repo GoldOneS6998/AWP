@@ -2,7 +2,7 @@
   <header>
     <p class="eyebrow">MI CUENTA</p>
     <h1 id="login-titulo">{{ sesionActiva ? 'Bienvenido' : 'Iniciar sesión' }}</h1>
-    <p class="intro">{{ sesionActiva ? 'Tu sesión está activa.' : 'Ingresa con tu correo y contraseña para continuar.' }}</p>
+    <p class="intro">{{ sesionActiva ? 'Tu sesión está activa.' : 'Elige Google o ingresa con tu correo y contraseña.' }}</p>
   </header>
 
   <p *ngIf="revisandoSesion" role="status">Comprobando sesión…</p>
@@ -19,6 +19,10 @@
 
   <form *ngIf="!sesionActiva && !revisandoSesion" [formGroup]="formulario" (ngSubmit)="ingresar()" novalidate>
     <fieldset [disabled]="procesando">
+      <button type="button" class="google-button" (click)="ingresarConGoogle()" [disabled]="procesando">
+        {{ accion === 'google' ? 'Conectando con Google…' : 'Continuar con Google' }}
+      </button>
+      <p class="divider">o usa tu correo y contraseña</p>
       <div class="field">
         <label for="login-correo">Correo electrónico</label>
         <input id="login-correo" type="email" formControlName="correo" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" placeholder="tu@correo.com" required [attr.aria-invalid]="campoInvalido('correo')" [attr.aria-describedby]="campoInvalido('correo') ? 'correo-error' : null">
@@ -40,3 +44,4 @@
     <p class="register">¿No tienes cuenta? <a routerLink="/registro">Ir a Registro</a></p>
   </form>
 </section>
+

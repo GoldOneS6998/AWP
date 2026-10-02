@@ -3,6 +3,8 @@ import {isPlatformBrowser} from '@angular/common';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Subscription} from 'rxjs';
+import {auth} from 'firebase/app';
+import 'firebase/auth';
 
 @Component({
   selector: 'login',
@@ -78,6 +80,28 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  async ingresarConGoogle(): Promise<void> {
+    if (!this.navegador || this.procesando || this.revisandoSesion) { return; }
+    this.procesando = true;
+    this.accion = 'google';
+    this.error = '';
+    this.mensaje = '';
+    try {
+      await this.autenticacion.auth.setPersistence(this.formulario.value.recordar ? 'local' : 'session');
+      const proveedor = new auth.GoogleAuthProvider();
+      proveedor.setCustomParameters({prompt: 'select_account'});
+      await this.autenticacion.auth.signInWithPopup(proveedor);
+      this.formulario.get('password').reset('');
+      this.mostrarPassword = false;
+      this.enviado = false;
+      this.mensaje = 'Has iniciado sesión con Google.';
+    } catch (fallo) {
+      this.error = this.describirError(fallo);
+    } finally {
+      this.procesando = false;
+      this.accion = '';
+    }
+  }
   async recuperar(): Promise<void> {
     if (!this.navegador || this.procesando || this.revisandoSesion) { return; }
     this.error = '';
@@ -132,6 +156,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private describirError(fallo: {code?: string}): string {
     switch (fallo && fallo.code) {
+      case 'auth/popup-closed-by-user': return 'Cerraste la ventana de Google. Puedes intentarlo de nuevo.';
+      case 'auth/cancelled-popup-request': return 'La solicitud se canceló. Vuelve a pulsar Continuar con Google.';
+      case 'auth/popup-blocked': return 'Permite las ventanas emergentes de esta página y vuelve a intentarlo.';
+      case 'auth/unauthorized-domain': return 'Este dominio no está autorizado en Firebase Authentication. Agrégalo en Dominios autorizados.';
+      case 'auth/account-exists-with-different-credential': return 'Esta cuenta utiliza otro método de acceso. Inicia sesión con el método que usaste al registrarte.';
       case 'auth/invalid-email': return 'El formato del correo no es válido.';
       case 'auth/user-not-found':
       case 'auth/wrong-password':
@@ -140,7 +169,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       case 'auth/user-disabled': return 'Esta cuenta está deshabilitada. Contacta al administrador.';
       case 'auth/too-many-requests': return 'Demasiados intentos. Espera un momento antes de volver a intentar.';
       case 'auth/network-request-failed': return 'No se pudo conectar. Revisa tu conexión a internet.';
-      case 'auth/operation-not-allowed': return 'El acceso con correo y contraseña todavía no está habilitado en Firebase.';
+      case 'auth/operation-not-allowed': return 'Este método de acceso no está habilitado en Firebase.';
       case 'auth/web-storage-unsupported': return 'El navegador no permite guardar la sesión. Revisa sus ajustes de almacenamiento.';
       default: return 'No se pudo completar la operación. Inténtalo de nuevo más tarde.';
     }
@@ -150,3 +179,4 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.suscripcion) { this.suscripcion.unsubscribe(); }
   }
 }
+
