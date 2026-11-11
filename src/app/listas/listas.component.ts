@@ -49,6 +49,7 @@ export class ListasComponent implements OnInit,OnDestroy {
   const toque=evento.changedTouches[0]; this.inicioDeslizamientoX=toque.clientX; this.inicioDeslizamientoY=toque.clientY;
   this.elementoDeslizando=tipo+':'+id;
  }
+ cancelarDeslizamiento():void { this.elementoDeslizando=''; }
  async manejarDeslizamientoFin(evento:TouchEvent,tipo:'lista'|'tarea',id:string):Promise<void> {
   const toque=evento.changedTouches[0],desplazamientoX=toque.clientX-this.inicioDeslizamientoX,desplazamientoY=toque.clientY-this.inicioDeslizamientoY;
   this.elementoDeslizando='';
@@ -56,7 +57,7 @@ export class ListasComponent implements OnInit,OnDestroy {
    if(tipo==='lista') await this.eliminarLista(id); else await this.eliminarTarea(id);
   }
  }
- private async eliminarLista(id:string):Promise<void> {
+ async eliminarLista(id:string):Promise<void> {
   if(!this.uid||this.guardando)return;
   this.guardando=true;this.error='';
   try {
@@ -73,7 +74,7 @@ export class ListasComponent implements OnInit,OnDestroy {
   } catch(e){this.error='No se pudo eliminar la lista. Revisa permisos de Firestore.';}
   finally{this.guardando=false;}
  }
- private async eliminarTarea(id:string):Promise<void> {
+ async eliminarTarea(id:string):Promise<void> {
   if(!this.uid||!this.listaId||this.guardando)return;
   this.guardando=true;this.error='';
   try{await this.db.doc('usuarios/'+this.uid+'/listas/'+this.listaId+'/tareas/'+id).delete();this.mensaje='Tarea eliminada.';}

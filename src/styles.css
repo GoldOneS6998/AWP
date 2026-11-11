@@ -66,8 +66,10 @@ textarea.form-control { min-height: 90px; resize: vertical; }
 .swipe-item { position: relative; overflow: hidden; touch-action: pan-y; }
 .swipe-item > :not(.swipe-hint) { position: relative; z-index: 1; }
 .swipe-hint { position: absolute; z-index: 0; inset: 0 0 0 auto; width: 86px; display: grid; place-items: center; background: #bd3c42; color: white; font-size: 1.25rem; }
-.list-card.swiping .list-link,.task-card.swiping > :not(.swipe-hint) { transform: translateX(-86px); transition: transform .18s ease; }
-.list-card .list-link,.task-card > :not(.swipe-hint) { transition: transform .18s ease; }
+.delete-action { z-index: 2; border: 0; cursor: pointer; }
+.delete-action:disabled { opacity: .55; cursor: wait; }
+.list-card.swiping .list-link,.task-card.swiping .task-body { transform: translateX(-86px); transition: transform .18s ease; }
+.list-card .list-link,.task-card .task-body { transition: transform .18s ease; }
 .swipe-note { margin: 14px 4px; color: var(--muted); font-size: .85rem; }
 .toggle-form { padding: 9px 13px; border: 1px solid var(--line); border-radius: 9px; background: white; color: var(--brand-dark); font: inherit; font-weight: 700; cursor: pointer; }
-@media (prefers-reduced-motion: reduce) { .list-enter > li,.form-enter { animation: none; } .list-card .list-link,.task-card > :not(.swipe-hint) { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .list-enter > li,.form-enter { animation: none; } .list-card .list-link,.task-card .task-body { transition: none; } }

@@ -1,5 +1,6 @@
 import {ListasComponent} from '../listas/listas.component';
 import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -30,6 +31,7 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
+    BrowserAnimationsModule,
     RouterModule.forRoot(routers),
     HttpClientModule,
     ReactiveFormsModule,

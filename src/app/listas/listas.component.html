@@ -16,8 +16,8 @@
     <p *ngIf="listas.length === 0" class="empty-state">Todavía no tienes listas. Crea la primera arriba.</p>
     <ul *ngIf="listas.length" class="items list-enter">
       <li *ngFor="let lista of listas" class="list-card swipe-item" [class.swiping]="elementoDeslizando === 'lista:' + lista.id"
-          (touchstart)="manejarDeslizamientoInicio($event, 'lista', lista.id)" (touchend)="manejarDeslizamientoFin($event, 'lista', lista.id)">
-        <div class="swipe-hint" aria-hidden="true"><i class="fa fa-trash"></i></div>
+          (touchstart)="manejarDeslizamientoInicio($event, 'lista', lista.id)" (touchend)="manejarDeslizamientoFin($event, 'lista', lista.id)" (touchcancel)="cancelarDeslizamiento()">
+        <button class="swipe-hint delete-action" type="button" [disabled]="guardando" [attr.aria-label]="'Eliminar lista ' + lista.nombre" title="Eliminar lista" (click)="eliminarLista(lista.id)"><i class="fa fa-trash"></i></button>
         <button class="list-link" type="button" (click)="abrir(lista)"><span class="list-icon"><i class="fa fa-list-ul"></i></span>
           <span class="list-copy"><strong>{{ lista.nombre }}</strong><small *ngIf="lista.creadoEn">{{ lista.creadoEn.toDate ? (lista.creadoEn.toDate() | date:'mediumDate') : '' }}</small></span><i class="fa fa-chevron-right list-chevron"></i></button>
       </li>
@@ -33,9 +33,11 @@
     </form>
     <p *ngIf="!cargando && tareas.length === 0" class="empty-state">Esta lista todavía no tiene tareas.</p>
     <article class="task-card swipe-item" *ngFor="let tarea of tareas" [class.swiping]="elementoDeslizando === 'tarea:' + tarea.id"
-        (touchstart)="manejarDeslizamientoInicio($event, 'tarea', tarea.id)" (touchend)="manejarDeslizamientoFin($event, 'tarea', tarea.id)">
-      <div class="swipe-hint" aria-hidden="true"><i class="fa fa-trash"></i></div><span class="task-check"><i class="fa fa-circle-o"></i></span>
-      <div class="task-content"><h3>{{ tarea.descripcion }}</h3><ul *ngIf="tarea.pendientes"><li *ngFor="let pendiente of tarea.pendientes.split('\n')">{{ pendiente }}</li></ul></div>
+        (touchstart)="manejarDeslizamientoInicio($event, 'tarea', tarea.id)" (touchend)="manejarDeslizamientoFin($event, 'tarea', tarea.id)" (touchcancel)="cancelarDeslizamiento()">
+      <button class="swipe-hint delete-action" type="button" [disabled]="guardando" [attr.aria-label]="'Eliminar tarea ' + tarea.descripcion" title="Eliminar tarea" (click)="eliminarTarea(tarea.id)"><i class="fa fa-trash"></i></button>
+      <div class="task-body"><span class="task-check"><i class="fa fa-circle-o"></i></span>
+        <div class="task-content"><h3>{{ tarea.descripcion }}</h3><ul *ngIf="tarea.pendientes"><li *ngFor="let pendiente of tarea.pendientes.split('\n')">{{ pendiente }}</li></ul></div>
+      </div>
     </article>
     <p *ngIf="tareas.length" class="swipe-note"><i class="fa fa-hand-o-left"></i> Desliza una tarea a la izquierda para eliminarla</p>
   </section>
