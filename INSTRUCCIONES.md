@@ -58,3 +58,28 @@ Para usar cuentas reales, habilita el proveedor Correo/contraseña en Authentica
 
 El botón Continuar con Google abre el selector de cuentas de Google usando Firebase. No necesita llenar el correo ni la contraseña del formulario. Respeta la opción Mantener mi sesión.
 En Firebase Authentication debe estar habilitado Google y el dominio desde el que se abre la página debe figurar en Configuración > Dominios autorizados. Revisa localhost para desarrollo y el dominio exacto del túnel si lo utilizas. Permite ventanas emergentes cuando el navegador lo solicite. El acceso real se completa personalmente con la cuenta de Google del usuario.
+
+## Estructura de clase (6 de octubre de 2026)
+
+- src/app/structures/app.module.ts: módulo principal.
+- src/app/structures/app.server.module.ts: módulo del servidor.
+- src/app/structures/routers.ts: rutas existentes.
+- src/base/app.component.ts y app.component.html: componente raíz y navegación.
+- src/base/colors.css y defaults.css: colores y presentación del componente raíz.
+- src/app/guards/auth.guard.service.ts: AuthGuard preparado para comprobar la sesión.
+
+El guard no está asignado a ninguna ruta todavía. Cuando se decida cuál debe ser privada,
+se importa AuthGuard en routers.ts desde ../guards/auth.guard.service y se agrega
+canActivate: [AuthGuard] a esa ruta. Login debe permanecer público.
+En el servidor el guard deniega el acceso y en el navegador comprueba Firebase;
+si no hay sesión o falla la consulta, navega a /login.
+Font Awesome 4.7.0 se carga desde angular.json para el icono de Home.
+## Mis Listas (20 de octubre de 2026)
+El menú muestra Mis Listas y Salir al autenticarte; de lo contrario muestra Iniciar sesión.
+La ruta /listas usa AuthGuard. Permite crear y consultar listas en Cloud Firestore:
+usuarios/{uid}/listas/{id}. El nombre se valida y la fecha se genera en el servidor.
+Para utilizarla, Cloud Firestore debe estar creado en el proyecto Firebase.
+firestore.rules contiene reglas propuestas para que cada usuario acceda solo a sus listas.
+Esas reglas NO se han publicado: deben integrarse con las reglas existentes en Firebase
+antes de comprobar el acceso con una cuenta real. No usar reglas públicas.
+Se conserva el login de Google y correo; la disponibilidad depende de los proveedores habilitados.

@@ -5,21 +5,21 @@
     <p class="intro">{{ sesionActiva ? 'Tu sesión está activa.' : 'Elige Google o ingresa con tu correo y contraseña.' }}</p>
   </header>
 
-  <p *ngIf="revisandoSesion" role="status">Comprobando sesión…</p>
+  <p *ngIf="revisandoSesion" class="hint" role="status">Comprobando sesión…</p>
   <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
   <p *ngIf="mensaje" class="alert success" role="status">{{ mensaje }}</p>
 
   <div *ngIf="sesionActiva && !revisandoSesion" class="account">
     <p>Conectado como <strong>{{ correoUsuario }}</strong></p>
     <a routerLink="/">Ir al inicio</a>
-    <button type="button" class="primary" (click)="salir()" [disabled]="procesando">
+    <button type="button" class="primary" (click)="salir()" [disabled]="procesando || revisandoSesion">
       {{ accion === 'salir' ? 'Cerrando sesión…' : 'Cerrar sesión' }}
     </button>
   </div>
 
-  <form *ngIf="!sesionActiva && !revisandoSesion" [formGroup]="formulario" (ngSubmit)="ingresar()" novalidate>
-    <fieldset [disabled]="procesando">
-      <button type="button" class="google-button" (click)="ingresarConGoogle()" [disabled]="procesando">
+  <form *ngIf="!sesionActiva" [formGroup]="formulario" (ngSubmit)="ingresar()" novalidate>
+    <fieldset [disabled]="procesando || revisandoSesion">
+      <button type="button" class="google-button" (click)="ingresarConGoogle()" [disabled]="procesando || revisandoSesion">
         {{ accion === 'google' ? 'Conectando con Google…' : 'Continuar con Google' }}
       </button>
       <p class="divider">o usa tu correo y contraseña</p>

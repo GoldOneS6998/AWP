@@ -16,6 +16,6 @@
   // Add "angularCompilerOptions" with the AppServerModule you wrote
   // set as the "entryModule".
   "angularCompilerOptions": {
-    "entryModule": "app/app.server.module#AppServerModule"
+    "entryModule": "app/structures/app.server.module#AppServerModule"
   }
 }

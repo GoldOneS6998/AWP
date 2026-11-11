@@ -1,0 +1,9 @@
+:host {
+  --nav-background: #008591;
+  --nav-foreground: #fff;
+  --content-border: #00afc4;
+  background: #f1f1f1;
+}
+.nav-links { background: var(--nav-background); color: var(--nav-foreground); }
+.nav-links a { color: var(--nav-foreground); }
+.router-container { border-color: var(--content-border); }

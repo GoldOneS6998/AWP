@@ -35,7 +35,24 @@
     <p>Login permite acceder con Google o con correo y contraseña, recuperar el acceso por correo y cerrar sesión. Registro todavía muestra su título y no crea cuentas.</p>
   </section>
 
-  <section class="timeline" aria-label="Historial de cambios por día">
+  <section class="timeline" aria-label="Historial de cambios por día"><article>
+<time datetime="2026-10-20">20 de octubre de 2026</time>
+<h2>Menú con sesión y Mis Listas</h2>
+<p>Integramos los estilos de clase, completamos showLogin y conectamos Salir con Firebase. Creamos /listas con AuthGuard, formulario y consulta en tiempo real de usuarios/&#123;uid&#125;/listas en Cloud Firestore. Corregimos las sombras CSS y evitamos cargar Font Awesome dos veces.</p>
+<p>Las reglas propuestas están en firestore.rules, pendientes de integrar y publicar en Firebase. Falta comprobar el guardado con una cuenta real.</p>
+</article>
+    <article>
+      <time datetime="2026-10-06">6 de octubre de 2026</time>
+      <h2>Estructura de clase, navegación y guard de autenticación</h2>
+      <ul>
+        <li>Movimos app.module.ts, app.server.module.ts y routers.ts a src/app/structures y ajustamos sus importaciones, rutas diferidas y puntos de entrada.</li>
+        <li>Movimos AppComponent a src/base y separamos su HTML en app.component.html. Los estilos están en colors.css y defaults.css; su contenido adapta los estilos existentes porque las fotos solo muestran sus nombres.</li>
+        <li>La barra muestra What to do, un icono de Home y los enlaces existentes, además de Login y Registro.</li>
+        <li>Agregamos AuthGuard en src/app/guards/auth.guard.service.ts con take, map y tap: comprueba la sesión y redirige a Login si no existe o falla la consulta.</li>
+        <li>El guard queda disponible para canActivate; todavía no se asigna a rutas porque las fotos no indican cuáles deben ser privadas.</li>
+        <li>Corregimos el cierre HTML sobrante y completamos los fragmentos incompletos de las fotos.</li>
+      </ul>
+    </article>
     <article>
       <time datetime="2026-10-02">2 de octubre de 2026</time>
       <h2>Login con Firebase y acceso con Google</h2>
@@ -110,7 +127,7 @@
       <li>Manifiesto, iconos y configuración del service worker para hacer la aplicación instalable como PWA.</li>
     </ul>
   </section>
-  <footer>Historial actualizado al 2 de octubre de 2026. Esta bitácora se actualiza manualmente al realizar nuevos cambios.</footer>
+  <footer>Historial actualizado al 20 de octubre de 2026. Esta bitácora se actualiza manualmente al realizar nuevos cambios.</footer>
 </main>
 
 

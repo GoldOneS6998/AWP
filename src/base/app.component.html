@@ -1,0 +1,13 @@
+<nav class="main-nav blue large-padding light-text" aria-label="Navegación principal">
+  <a routerLink="/"><span class="nav-title">What to do</span></a>
+  <div class="float-right" *ngIf="usuario$ | async as user; else showLogin">
+    <a routerLink="/listas"><i class="fa fa-list" aria-hidden="true"></i> <span class="small-font">Mis Listas</span></a>
+    <button type="button" class="nav-logout" (click)="logout()" [disabled]="cerrando" aria-label="Cerrar sesión">
+      <i class="fa fa-sign-out" aria-hidden="true"></i> {{ cerrando ? 'Cerrando...' : 'Salir' }}
+    </button>
+  </div>
+  <ng-template #showLogin><div class="float-right"><a routerLink="/login">Iniciar sesión</a></div></ng-template>
+</nav>
+<p *ngIf="error" role="alert">{{ error }}</p>
+<div class="router-container"><router-outlet></router-outlet></div>
+<footer class="large-padding"><a routerLink="/informacion_pagina">Información y cambios de la página</a></footer>

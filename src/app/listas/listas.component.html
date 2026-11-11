@@ -1,0 +1,42 @@
+<section class="list-panel">
+  <header class="page-heading">
+    <div><p class="eyebrow">WHAT TO DO</p><h1>{{ listaId ? (listaActiva ? listaActiva.nombre : 'Lista') : 'Mis listas' }}</h1></div>
+    <a *ngIf="listaId" class="text-link" routerLink="/listas"><i class="fa fa-arrow-left"></i> Volver a mis listas</a>
+  </header>
+  <form *ngIf="uid && !listaId" class="create-card" [formGroup]="formulario" (ngSubmit)="crear()">
+    <label for="nombre-lista">Nueva lista</label>
+    <div class="create-row"><input id="nombre-lista" class="form-control" formControlName="nombre" maxlength="100" placeholder="Nombre de la lista">
+      <button class="btn blue light-text" type="submit" [disabled]="guardando">{{ guardando ? 'Guardando...' : 'Crear lista' }}</button></div>
+  </form>
+  <p *ngIf="cargando" class="state-message" role="status"><i class="fa fa-spinner fa-spin"></i> Cargando...</p>
+  <p *ngIf="error" class="state-message error-message" role="alert">{{ error }}</p>
+  <p *ngIf="mensaje" class="state-message success-message" role="status"><i class="fa fa-check-circle"></i> {{ mensaje }}</p>
+  <p *ngIf="!uid && !cargando" class="empty-state">Inicia sesión para ver y crear tus listas. <a routerLink="/login">Iniciar sesión</a></p>
+  <ng-container *ngIf="uid && !listaId && !cargando">
+    <p *ngIf="listas.length === 0" class="empty-state">Todavía no tienes listas. Crea la primera arriba.</p>
+    <ul *ngIf="listas.length" class="items list-enter">
+      <li *ngFor="let lista of listas" class="list-card swipe-item" [class.swiping]="elementoDeslizando === 'lista:' + lista.id"
+          (touchstart)="manejarDeslizamientoInicio($event, 'lista', lista.id)" (touchend)="manejarDeslizamientoFin($event, 'lista', lista.id)">
+        <div class="swipe-hint" aria-hidden="true"><i class="fa fa-trash"></i></div>
+        <button class="list-link" type="button" (click)="abrir(lista)"><span class="list-icon"><i class="fa fa-list-ul"></i></span>
+          <span class="list-copy"><strong>{{ lista.nombre }}</strong><small *ngIf="lista.creadoEn">{{ lista.creadoEn.toDate ? (lista.creadoEn.toDate() | date:'mediumDate') : '' }}</small></span><i class="fa fa-chevron-right list-chevron"></i></button>
+      </li>
+    </ul>
+    <p *ngIf="listas.length" class="swipe-note"><i class="fa fa-hand-o-left"></i> Desliza una lista a la izquierda para eliminarla</p>
+  </ng-container>
+  <section *ngIf="uid && listaId && listaActiva" class="tasks-section">
+    <div class="section-heading"><h2>Tareas</h2><button type="button" class="toggle-form" (click)="mostrarFormularioTarea = !mostrarFormularioTarea" [attr.aria-expanded]="mostrarFormularioTarea"><i class="fa" [class.fa-plus]="!mostrarFormularioTarea" [class.fa-minus]="mostrarFormularioTarea"></i> {{ mostrarFormularioTarea ? 'Ocultar formulario' : 'Agregar tarea' }}</button></div>
+    <form *ngIf="mostrarFormularioTarea" class="create-card task-form form-enter" [formGroup]="tareaForm" (ngSubmit)="crearTarea()">
+      <label for="descripcion">Crear tarea</label><input id="descripcion" class="form-control" formControlName="descripcion" maxlength="300" placeholder="Descripción de la tarea">
+      <label for="pendientes" class="secondary-label">Pendientes de la tarea</label><textarea id="pendientes" class="form-control" formControlName="pendientes" maxlength="1000" placeholder="Agrega notas o pendientes"></textarea>
+      <button class="btn blue light-text top-space" type="submit" [disabled]="guardando"><i class="fa fa-plus"></i> {{ guardando ? 'Guardando...' : 'Crear tarea' }}</button>
+    </form>
+    <p *ngIf="!cargando && tareas.length === 0" class="empty-state">Esta lista todavía no tiene tareas.</p>
+    <article class="task-card swipe-item" *ngFor="let tarea of tareas" [class.swiping]="elementoDeslizando === 'tarea:' + tarea.id"
+        (touchstart)="manejarDeslizamientoInicio($event, 'tarea', tarea.id)" (touchend)="manejarDeslizamientoFin($event, 'tarea', tarea.id)">
+      <div class="swipe-hint" aria-hidden="true"><i class="fa fa-trash"></i></div><span class="task-check"><i class="fa fa-circle-o"></i></span>
+      <div class="task-content"><h3>{{ tarea.descripcion }}</h3><ul *ngIf="tarea.pendientes"><li *ngFor="let pendiente of tarea.pendientes.split('\n')">{{ pendiente }}</li></ul></div>
+    </article>
+    <p *ngIf="tareas.length" class="swipe-note"><i class="fa fa-hand-o-left"></i> Desliza una tarea a la izquierda para eliminarla</p>
+  </section>
+</section>

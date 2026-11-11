@@ -1,0 +1,9 @@
+body { margin: 0; font-family: Arial, sans-serif; background: #f1f1f1; color: #222; }
+.router-container { padding: 1.5em; }
+.nav-title { font-weight: bold; font-size: 1.2rem; }
+.list-panel { max-width: 700px; margin: auto; }
+@media (max-width: 480px) {
+  .main-nav .float-right { float: none; margin-top: 1em; }
+  .main-nav .float-right a { margin-left: 0; }
+  .router-container { padding: .75em; }
+}
